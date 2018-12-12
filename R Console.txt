@@ -1,0 +1,136 @@
+
+R version 3.5.1 (2018-07-02) -- "Feather Spray"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+During startup - Warning messages:
+1: Setting LC_CTYPE failed, using "C" 
+2: Setting LC_COLLATE failed, using "C" 
+3: Setting LC_TIME failed, using "C" 
+4: Setting LC_MESSAGES failed, using "C" 
+5: Setting LC_MONETARY failed, using "C" 
+[R.app GUI 1.70 (7543) x86_64-apple-darwin15.6.0]
+
+WARNING: You're using a non-UTF8 locale, therefore only ASCII characters will work.
+Please read R for Mac OS X FAQ (see Help) section 9 and adjust your system preferences accordingly.
+[Workspace restored from /Users/jangseong-yeong/.RData]
+[History restored from /Users/jangseong-yeong/.Rapp.history]
+
+> x<-1:10
+> y<-x^2/log(x+1)
+> plot(x,y)
+> 
+> m1 <- matrix(rnorm(200,mean=3,sd=1), nrow=20, ncol=10)
+> m2 <- matrix(rnorm(200,mean=3,sd=10), nrow=20, ncol=10)
+> contour(m1)
+> contour(m2)
+> image(m1)
+> image(m2)
+> persp(m1,phi=10,theta=30,col="grey")
+> persp(m2,phi=10,theta=30,col="grey")
+> head(asia)
+Error in head(asia) : object 'asia' not found
+
+Attaching package: 'bnlearn'
+
+The following object is masked from 'package:stats':
+
+    sigma
+
+starting httpd help server ... done
+> head(asia)
+   A   S   T  L   B   E   X   D
+1 no yes  no no yes  no  no yes
+2 no yes  no no  no  no  no  no
+3 no  no yes no  no yes yes yes
+4 no  no  no no yes  no  no yes
+5 no  no  no no  no  no  no yes
+6 no yes  no no  no  no  no yes
+> data(asia)
+> fit = bn.fit(asia)
+Error in check.bn(x) : x must be an object of class 'bn'.
+> fit = bnlearn.fit(aisa)
+Error in bnlearn.fit(aisa) : could not find function "bnlearn.fit"
+> pdag = iamb(asia)
+> pdag
+
+  Bayesian network learned via Constraint-based methods
+
+  model:
+   [A][S][T][L][X][D][B|S:D][E|T:L] 
+  nodes:                                 8 
+  arcs:                                  4 
+    undirected arcs:                     0 
+    directed arcs:                       4 
+  average markov blanket size:           1.50 
+  average neighbourhood size:            1.00 
+  average branching factor:              0.50 
+
+  learning algorithm:                    IAMB 
+  conditional independence test:         Mutual Information (disc.) 
+  alpha threshold:                       0.05 
+  tests used in the learning procedure:  180 
+  optimized:                             FALSE 
+
+> data(asia)
+> dag = model2network("[A][S][T][L][X][D][B|S:D][E|T:L]")
+> fit=bn.fit(dag, data)
+Error in check.data(data, allow.missing = TRUE) : 
+  the data must be in a data frame.
+> fit=bn.fit(dag, asia)
+> boot = boot.strength(asia, R=500, algorithm="hc")
+avg.b
+> avg.boot = averaged.network(boot, threshold=0.85)
+> undirected.arcs(avg.boot)
+     from to
+> avg.boot
+
+  Random/Generated Bayesian network
+
+  model:
+   [A][S][T][L|S][B|S][E|T:L][X|E][D|B:E] 
+  nodes:                                 8 
+  arcs:                                  7 
+    undirected arcs:                     0 
+    directed arcs:                       7 
+  average markov blanket size:           2.25 
+  average neighbourhood size:            1.75 
+  average branching factor:              0.88 
+
+  generation algorithm:                  Model Averaging 
+  significance threshold:                0.85 
+
+> dag.set.arc(avg.boot, "A", "B")
+Error in dag.set.arc(avg.boot, "A", "B") : 
+  could not find function "dag.set.arc"
+> dag = set.arc(avg.boot, "A", "B")
+> dag
+
+  Random/Generated Bayesian network
+
+  model:
+   [A][S][T][L|S][B|A:S][E|T:L][X|E][D|B:E] 
+  nodes:                                 8 
+  arcs:                                  8 
+    undirected arcs:                     0 
+    directed arcs:                       8 
+  average markov blanket size:           2.75 
+  average neighbourhood size:            2.00 
+  average branching factor:              1.00 
+
+  generation algorithm:                  Model Averaging 
+  significance threshold:                0.85 
+
+> 
